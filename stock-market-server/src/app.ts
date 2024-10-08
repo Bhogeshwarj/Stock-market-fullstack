@@ -3,6 +3,8 @@ import NodeCache from 'node-cache';
 import { config } from 'dotenv';
 import morgan from 'morgan';
 import cors from 'cors';
+import { errorMiddleware } from './middleware/error';
+import ErrorHandler from './utils/errorHandler';
 
 // Load environment variables
 config({
@@ -25,10 +27,19 @@ app.get('/', (req, res) => {
 });
 
 // Serve static files (e.g., images)
-app.use("/uploads", express.static("uploads"));
+// app.use("/uploads", express.static("uploads"));
 
 // Start the server
-const port = process.env.PORT || 3000;
+// app.use("/api/v1/user",userRoute);
+// app.use("/api/v1/addToWatchlist", watchlistRoute);
+// app.use("/api/v1/individualStock",stockRoute );
+app.use((req, res, next) => {
+  const error = new ErrorHandler("Not Found", 404);
+  next(error);
+});
+// app.use(errorMiddleware);
+
+const port = process.env.PORT || 3008;
 app.listen(port, () => {
   console.log(`Server is working on port ${port}`);
 });
