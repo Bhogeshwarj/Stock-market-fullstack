@@ -5,11 +5,22 @@ import morgan from 'morgan';
 import cors from 'cors';
 import { errorMiddleware } from './middleware/error';
 import ErrorHandler from './utils/errorHandler';
+import { connectDB } from './utils/connectDB';
 
 // Load environment variables
 config({
   path: "./.env"
 });
+
+const port = process.env.PORT || 3008;
+
+
+(async () => {
+  const dbPool = await connectDB();
+  // You can now use dbPool to make queries
+})();
+
+
 
 // Initialize cache
 export const myCache = new NodeCache();
@@ -33,13 +44,13 @@ app.get('/', (req, res) => {
 // app.use("/api/v1/user",userRoute);
 // app.use("/api/v1/addToWatchlist", watchlistRoute);
 // app.use("/api/v1/individualStock",stockRoute );
-app.use((req, res, next) => {
+app.use((req, res, next) => {  
   const error = new ErrorHandler("Not Found", 404);
   next(error);
 });
 // app.use(errorMiddleware);
 
-const port = process.env.PORT || 3008;
+
 app.listen(port, () => {
   console.log(`Server is working on port ${port}`);
 });
