@@ -6,6 +6,9 @@ import cors from 'cors';
 import { errorMiddleware } from './middleware/error';
 import ErrorHandler from './utils/errorHandler';
 import { connectDB } from './utils/connectDB';
+//importing routes
+
+import watchlistRoute from './routes/watchlist'
 
 
 // Load environment variables
@@ -44,7 +47,7 @@ app.get('/', (req, res) => {
 
 // Start the server
 // app.use("/api/v1/user",userRoute);
-// app.use("/api/v1/addToWatchlist", watchlistRoute);
+app.use("/api/v1/watchlist", watchlistRoute);
 // app.use("/api/v1/individualStock",stockRoute );
 app.use((req, res, next) => {  
   const error = new ErrorHandler("Not Found", 404);
