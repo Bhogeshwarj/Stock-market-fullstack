@@ -7,20 +7,22 @@ import { errorMiddleware } from './middleware/error';
 import ErrorHandler from './utils/errorHandler';
 import { connectDB } from './utils/connectDB';
 
+
 // Load environment variables
-config({
-  path: "./.env"
-});
+
 
 const port = process.env.PORT || 3008;
 
 
 (async () => {
-  const dbPool = await connectDB();
-  // You can now use dbPool to make queries
+  try {
+    await connectDB();
+    console.log('Database connection established!');
+  } catch (error) {
+    console.error('Failed to connect to the database:', error);
+    process.exit(1); // Exit the application if the DB connection fails
+  }
 })();
-
-
 
 // Initialize cache
 export const myCache = new NodeCache();

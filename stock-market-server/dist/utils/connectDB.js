@@ -15,24 +15,22 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.connectDB = void 0;
 const promise_1 = __importDefault(require("mysql2/promise"));
 const dotenv_1 = require("dotenv");
-// Load environment variables from .env file
+// Load environment variables
 (0, dotenv_1.config)();
 const connectDB = () => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const pool = promise_1.default.createPool("mysql://avnadmin:AVNS_mCNlo0-ADTQ1QpdfEeZ@mysql-35439d19-bhogeshwarj-4ebf.l.aivencloud.com:22888/defaultdb");
-        // Test connection
-        yield pool.getConnection();
-        console.log(`Connected to the MySQL database .`);
-        return pool; // Return the pool to use elsewhere in the app
+        // Ensure that DB_URI is defined in the environment variables
+        if (!process.env.DB_URI) {
+            throw new Error('DB_URI is not defined in the environment variables');
+        }
+        // Create a connection pool using DB_URI from environment variables
+        const pool = promise_1.default.createPool(process.env.DB_URI);
+        console.log('Connected to the MySQL database!');
+        return pool;
     }
     catch (error) {
-        if (error instanceof Error) {
-            console.error('Database connection failed:', error.message);
-        }
-        else {
-            console.error('Unknown error occurred during database connection');
-        }
-        throw error; // Rethrow the error for handling at a higher level
+        console.error('Database connection failed:', error.message);
+        throw error;
     }
 });
 exports.connectDB = connectDB;

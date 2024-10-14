@@ -15,19 +15,21 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.myCache = void 0;
 const express_1 = __importDefault(require("express"));
 const node_cache_1 = __importDefault(require("node-cache"));
-const dotenv_1 = require("dotenv");
 const morgan_1 = __importDefault(require("morgan"));
 const cors_1 = __importDefault(require("cors"));
 const errorHandler_1 = __importDefault(require("./utils/errorHandler"));
 const connectDB_1 = require("./utils/connectDB");
 // Load environment variables
-(0, dotenv_1.config)({
-    path: "./.env"
-});
 const port = process.env.PORT || 3008;
 (() => __awaiter(void 0, void 0, void 0, function* () {
-    const dbPool = yield (0, connectDB_1.connectDB)();
-    // You can now use dbPool to make queries
+    try {
+        yield (0, connectDB_1.connectDB)();
+        console.log('Database connection established!');
+    }
+    catch (error) {
+        console.error('Failed to connect to the database:', error);
+        process.exit(1); // Exit the application if the DB connection fails
+    }
 }))();
 // Initialize cache
 exports.myCache = new node_cache_1.default();
