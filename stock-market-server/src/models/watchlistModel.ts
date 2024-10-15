@@ -31,3 +31,17 @@ export const addStockToWatchlist = async (stockName: string, symbol: string, ana
       throw new Error('Failed to fetch watchlist');
     }
   };
+
+  export const deleteStockById = async (id: number) => {
+    try {
+      const pool = getPool(); // Assuming getPool() is used to get the database connection pool
+      const query = `DELETE FROM watchlist WHERE id = ?`;
+      
+      const [result] = await pool.query(query, [id]);  // Use pool to run the DELETE query
+      return result; // Result will include affectedRows, etc.
+    } catch (error) {
+      console.error('Error deleting stock:', error);
+      throw new Error('Failed to delete stock');
+    }
+  };
+  

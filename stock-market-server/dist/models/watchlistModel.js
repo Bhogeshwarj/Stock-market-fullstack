@@ -9,7 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getWatchlist = exports.addStockToWatchlist = void 0;
+exports.deleteStockById = exports.getWatchlist = exports.addStockToWatchlist = void 0;
 const connectDB_1 = require("../utils/connectDB");
 const addStockToWatchlist = (stockName, symbol, analysed, remark) => __awaiter(void 0, void 0, void 0, function* () {
     try {
@@ -40,3 +40,16 @@ const getWatchlist = () => __awaiter(void 0, void 0, void 0, function* () {
     }
 });
 exports.getWatchlist = getWatchlist;
+const deleteStockById = (id) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const pool = (0, connectDB_1.getPool)(); // Assuming getPool() is used to get the database connection pool
+        const query = `DELETE FROM watchlist WHERE id = ?`;
+        const [result] = yield pool.query(query, [id]); // Use pool to run the DELETE query
+        return result; // Result will include affectedRows, etc.
+    }
+    catch (error) {
+        console.error('Error deleting stock:', error);
+        throw new Error('Failed to delete stock');
+    }
+});
+exports.deleteStockById = deleteStockById;

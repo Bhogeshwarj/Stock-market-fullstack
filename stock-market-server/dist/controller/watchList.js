@@ -9,7 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.fetchWatchlist = exports.addToWatchlist = void 0;
+exports.deleteStockFromWatchlist = exports.fetchWatchlist = exports.addToWatchlist = void 0;
 const watchlistModel_1 = require("../models/watchlistModel");
 const addToWatchlist = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     const { stockName, symbol, analysed, remark } = req.body;
@@ -40,3 +40,40 @@ const fetchWatchlist = (req, res) => __awaiter(void 0, void 0, void 0, function*
     }
 });
 exports.fetchWatchlist = fetchWatchlist;
+// export const deleteStockFromWatchlist = async (req: Request, res: Response) => {
+//     const idParam = req.params.id;
+//     if (!idParam || isNaN(Number(idParam))) {
+//       return res.status(400).json({ message: 'Invalid stock ID' });
+//     }
+//     const id = parseInt(idParam, 10); 
+//     try {
+//       const result = await deleteStockById(id);
+//     //   if (result.affectedRows === 0) {
+//     //     return res.status(404).json({ message: 'Stock not found' });
+//     //   }
+//       res.status(200).json({ message: 'Stock deleted successfully' });
+//     } catch (error) {
+//       res.status(500).json({ message: 'Error deleting stock', error });
+//     }
+//   };
+const deleteStockFromWatchlist = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const idParam = req.params.id;
+    // Check if the ID is valid
+    // if (!idParam || isNaN(Number(idParam))) {
+    //     return res.status(400).json({ message: 'Invalid stock ID' });
+    // }
+    const id = parseInt(idParam, 10);
+    try {
+        const result = yield (0, watchlistModel_1.deleteStockById)(id); // Assuming deleteStockById interacts with the database
+        // if (result.affectedRows === 0) {
+        //     return res.status(404).json({ message: 'Stock not found' });
+        // }
+        // Successful deletion
+        res.status(200).json({ message: 'Stock deleted successfully' });
+    }
+    catch (error) {
+        // Error handling
+        res.status(500).json({ message: 'Error deleting stock', error });
+    }
+});
+exports.deleteStockFromWatchlist = deleteStockFromWatchlist;
