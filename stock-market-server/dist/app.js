@@ -21,6 +21,7 @@ const errorHandler_1 = __importDefault(require("./utils/errorHandler"));
 const connectDB_1 = require("./utils/connectDB");
 //importing routes
 const watchlist_1 = __importDefault(require("./routes/watchlist"));
+const fundamentals_1 = __importDefault(require("./routes/fundamentals"));
 // Load environment variables
 const port = process.env.PORT || 3008;
 (() => __awaiter(void 0, void 0, void 0, function* () {
@@ -49,6 +50,7 @@ app.get('/', (req, res) => {
 // Start the server
 // app.use("/api/v1/user",userRoute);
 app.use("/api/v1/watchlist", watchlist_1.default);
+app.use("/api/v1/fundamentals", fundamentals_1.default);
 // app.use("/api/v1/individualStock",stockRoute );
 app.use((req, res, next) => {
     const error = new errorHandler_1.default("Not Found", 404);

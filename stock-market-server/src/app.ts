@@ -9,6 +9,7 @@ import { connectDB } from './utils/connectDB';
 //importing routes
 
 import watchlistRoute from './routes/watchlist'
+import fundamentalsRoute from './routes/fundamentals'
 
 
 // Load environment variables
@@ -48,6 +49,8 @@ app.get('/', (req, res) => {
 // Start the server
 // app.use("/api/v1/user",userRoute);
 app.use("/api/v1/watchlist", watchlistRoute);
+app.use("/api/v1/fundamentals", fundamentalsRoute);
+
 // app.use("/api/v1/individualStock",stockRoute );
 app.use((req, res, next) => {  
   const error = new ErrorHandler("Not Found", 404);
