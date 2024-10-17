@@ -9,4 +9,5 @@ const fundamentals_1 = require("../controller/fundamentals");
 const router = express_1.default.Router();
 // route - /api/v1/order/add
 router.post('/add', fundamentals_1.addToFundamentals);
+router.get('/view', fundamentals_1.fetchFundamentals);
 exports.default = router;
